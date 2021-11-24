@@ -1,4 +1,4 @@
-const Responses = require('./API_resp'); 
+const Responses = require('../common/API_resp'); 
  
 const data = {
     1: { name: 'Anna', age: 25, job: 'journalist' },
