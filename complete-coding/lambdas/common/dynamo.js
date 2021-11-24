@@ -8,9 +8,9 @@ const Dynamo = {
 
         const params = {
             TableName: table,
-        Key: {
-            ID: id
-        }
+            Key: {
+                ID: id
+            }
         }
         const dataRetrieved = await docClient.get(params).promise();
         
@@ -18,6 +18,22 @@ const Dynamo = {
             throw Error(`There is an error in data ID = ${id} from ${table}`)
         } else {
             return dataRetrieved.Item;
+        }
+    },
+    async write(data, table) {
+
+        if (!data.ID) throw Error('no ID on the data')
+
+        const params = {
+            TableName: table,
+            Item: data
+        }
+        const dataRetrieved = await docClient.put(params).promise();
+        
+        if (!dataRetrieved) {
+            throw Error(`There is an error in data ID = ${data[ID]} from ${table}`)
+        } else {
+            return dataRetrieved;
         }
     }
 }

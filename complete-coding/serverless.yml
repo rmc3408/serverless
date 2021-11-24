@@ -10,10 +10,12 @@ provider:
   region: ca-central-1
   environment:
     tableName: ${self:custom.tableName}
+    bucketName: ${self:custom.bucketName}
   iamRoleStatements:
     - Effect: Allow
       Action:
         - dynamodb:*
+        - s3:*
       Resource: '*'
 
 
@@ -33,13 +35,34 @@ functions:
           path: get-job/{ID}
           method: GET
           cors: true
+  createUserJob:
+    handler: lambdas/endpoints/createPlayerJob.user
+    events:
+      - http: 
+          path: assign-job/{ID}
+          method: POST
+          cors: true
+  createFile:
+    handler: lambdas/endpoints/createFile.user
+    events:
+      - http: 
+          path: save-file/{fileName}
+          method: POST
+          cors: true
+  getFile:
+    handler: lambdas/endpoints/getFile.user
+    events:
+      - http: 
+          path: read-file/{fileName}
+          method: GET
+          cors: true
 
 resources:
   Resources:
     S3CompleteCoding:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: my-space-s3
+        BucketName: ${self:custom.bucketName}
     MyCompleteTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -64,11 +87,12 @@ package:
 
 custom:
   s3Sync:
-   - bucketName: my-space-s3
+   - bucketName: ${self:custom.bucketName}
      localDir: upload
   webpack:
     webpackConfig: 'webpack.config.js' # Name of webpack configuration file
     includeModules: false # Node modules configuration for packaging
     packager: 'npm' # Packager that will be used to package your external modules
   tableName: usersTable
+  bucketName: my-space-s3
 
