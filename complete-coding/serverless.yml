@@ -76,6 +76,19 @@ functions:
           path: read-file/{fileName}
           method: GET
           cors: true
+  proxy:
+    handler: lambdas/endpoints/proxy.handler
+    events:
+      - http:
+          path: chuck/{proxy+}
+          method: ANY
+          integration: http-proxy
+          cors: true
+          request:
+            uri: http://api.icndb.com/{proxy}
+            parameters:
+              paths:
+                proxy: true
 
 resources:
   Resources:
