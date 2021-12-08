@@ -1,4 +1,6 @@
 /jackson/node_modules
+/chaim/cars/node_modules
+*/node_modules
 
 # Logs
 logs
