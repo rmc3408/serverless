@@ -1,6 +1,8 @@
+org: rmc3408
+app: gateway
 service: complete-coding
 
-frameworkVersion: "2"
+frameworkVersion: '2 || 3'
 
 provider:
   name: aws
